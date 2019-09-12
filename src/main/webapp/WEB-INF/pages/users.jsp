@@ -64,7 +64,7 @@
         </tr>
         <c:forEach items="${listUsers}" var="user">
             <tr>
-                <td>${book.id}</td>
+                <td>${user.id}</td>
                 <td><a href="/userdata/${user.id}" target="_blank">${user.email}</a></td>
                 <td>${user.first}</td>
                 <td>${user.last}</td>
@@ -80,6 +80,64 @@
 
 <c:url var="addAction" value="/users/add"/>
 
-
+<form:form action="${addAction}" modelAttribute="user">
+    <table>
+        <c:if test="${!empty user.email}">
+            <tr>
+                <td>
+                    <form:label path="id">
+                        <spring:message text="ID"/>
+                    </form:label>
+                </td>
+                <td>
+                    <form:input path="id" readonly="true" size="8" disabled="true"/>
+                    <form:hidden path="id"/>
+                </td>
+            </tr>
+        </c:if>
+        <tr>
+            <td>
+                <form:label path="email">
+                    <spring:message text="Email"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="email"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form:label path="first">
+                    <spring:message text="FirstName"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="first"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form:label path="last">
+                    <spring:message text="LastName"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="last"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <c:if test="${!empty user.email}">
+                    <input type="submit"
+                           value="<spring:message text="Edit User"/>"/>
+                </c:if>
+                <c:if test="${empty user.email}">
+                    <input type="submit"
+                           value="<spring:message text="Add User"/>"/>
+                </c:if>
+            </td>
+        </tr>
+    </table>
+</form:form>
 </body>
 </html>
