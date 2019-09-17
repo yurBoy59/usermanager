@@ -40,10 +40,6 @@
             color: #333;
             background-color: #f0f0f0;
         }
-
-        .tg .tg-4eph {
-            background-color: #f9f9f9
-        }
     </style>
 </head>
 <body>
