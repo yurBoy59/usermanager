@@ -1,0 +1,96 @@
+  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url"
+                  value="jdbc:postgresql://localhost:5432/urBoy"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="1234"/>
+    </bean>
+
+
+        <bean class="java.net.URI" id="dbUrl">
+            <constructor-arg value="#{systemEnvironment['DATABASE_URL']}"/>
+        </bean>
+
+        <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+            <property name="url" value="#{ 'jdbc:postgresql://' + @dbUrl.getHost() +
+             ':' + @dbUrl.getPort() + @dbUrl.getPath() }"/>
+            <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
+            <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>
+        </bean>
+
+           <plugin>
+                  <artifactId>maven-clean-plugin</artifactId>
+                  <version>3.1.0</version>
+                </plugin>
+                <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
+                <plugin>
+                  <artifactId>maven-resources-plugin</artifactId>
+                  <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                  <artifactId>maven-compiler-plugin</artifactId>
+                  <version>3.8.0</version>
+                </plugin>
+                <plugin>
+                  <artifactId>maven-surefire-plugin</artifactId>
+                  <version>2.22.1</version>
+                </plugin>
+                <plugin>
+                  <artifactId>maven-war-plugin</artifactId>
+                  <version>3.2.2</version>
+                </plugin>
+                <plugin>
+                  <artifactId>maven-install-plugin</artifactId>
+                  <version>2.5.2</version>
+                </plugin>
+                <plugin>
+                  <artifactId>maven-deploy-plugin</artifactId>
+                  <version>2.8.2</version>
+                </plugin>
+
+                <plugin>
+                  <groupId>org.apache.tomcat.maven</groupId>
+                  <artifactId>tomcat7-maven-plugin</artifactId>
+                  <version>2.2</version>
+                  <configuration>
+                    <port>8080</port>
+                    <path>/</path>
+                  </configuration>
+                </plugin>
+                <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-compiler-plugin</artifactId>
+                  <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                  </configuration>
+                </plugin>
+
+
+
+
+
+
+
+
+                <plugin>
+                          <groupId>org.apache.maven.plugins</groupId>
+                          <artifactId>maven-dependency-plugin</artifactId>
+                          <executions>
+                            <execution>
+                              <phase>package</phase>
+                              <goals><goal>copy</goal></goals>
+                              <configuration>
+                                <artifactItems>
+                                  <artifactItem>
+                                    <groupId>com.github.jsimone</groupId>
+                                    <artifactId>webapp-runner</artifactId>
+                                    <version>9.0.24.0</version>
+                                    <destFileName>webapp-runner.jar</destFileName>
+                                  </artifactItem>
+                                </artifactItems>
+                              </configuration>
+                            </execution>
+                          </executions>
+                        </plugin>
